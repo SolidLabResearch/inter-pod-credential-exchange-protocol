@@ -13,11 +13,14 @@
   "devDependencies": {
     "jest": "^29.6.2"
   },
-  "scripts": {
-    "test": "jest"
-  },
   "dependencies": {
     "@mattrglobal/jsonld-signatures-bbs": "^1.1.2",
     "@solid/community-server": "^6.0.1"
+  },
+  "scripts": {
+    "test": "jest",
+    "serve": "npx @solid/community-server -c solid-server-config.json --seededPodConfigJson seed-pods.json",
+    "start": "serve && node index.js"
+
   }
 }

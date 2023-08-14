@@ -1,0 +1,17 @@
+[
+    {
+        "podName": "signer",
+        "email": "signer@solid.server",
+        "password": "signer"
+    },
+    {
+        "podName": "holder",
+        "email": "holder@solid.server",
+        "password": "holder"
+    },
+    {
+        "podName": "verifier",
+        "email": "verifier@solid.server",
+        "password": "verifier"
+    }
+]
