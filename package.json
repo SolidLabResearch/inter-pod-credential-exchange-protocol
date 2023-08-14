@@ -5,15 +5,19 @@
   "main": "index.js",
   "author": "J. Steinbach <jonas.steinbach@ugent.be>",
   "license": "MIT",
-  "private":true,
+  "private": true,
   "engines": {
     "node": ">=18.17.0"
   },
-  "type": "commonjs", 
+  "type": "commonjs",
   "devDependencies": {
     "jest": "^29.6.2"
   },
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "@mattrglobal/jsonld-signatures-bbs": "^1.1.2",
+    "@solid/community-server": "^6.0.1"
   }
 }
