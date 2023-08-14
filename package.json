@@ -1,0 +1,19 @@
+{
+  "name": "tri-pod-demo",
+  "version": "0.0.1",
+  "description": "SHARCS demo for signing, holding and verifying a signed JSON-LD document that works across three different Pods.",
+  "main": "index.js",
+  "author": "J. Steinbach <jonas.steinbach@ugent.be>",
+  "license": "MIT",
+  "private":true,
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
