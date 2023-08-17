@@ -20,7 +20,7 @@
   "scripts": {
     "test": "jest",
     "serve": "npx @solid/community-server -c solid-server-config.json --seededPodConfigJson seed-pods.json",
-    "start": "serve && node index.js"
-
+    "demo": "serve && start",
+    "start": "node index.js"
   }
 }
