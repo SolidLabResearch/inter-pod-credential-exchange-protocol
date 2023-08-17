@@ -8,7 +8,7 @@ const demo = async () => {
   // 0. make sure CSS runs and is available
   // - reset everything? -> using in-memory config; always resets
   // -> this will exit the whole process if the server doesn't run
-  checkCssIsAvailable()
+  await checkCssIsAvailable()
 
   // 1. setup pods 
   // - empty/reset them
@@ -17,15 +17,15 @@ const demo = async () => {
   // - ACP/WAC? (WAC is easier, ACP does a bit more) TODO
   // - have them run idle
   // the setup scripts are separate, as the pods have access to different informations
-  setupSigner()
-  setupHolder()
-  setupVerifier()
+  await setupSigner()
+  await setupHolder()
+  await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  signerCreateAndSignCredential()
-  signerSendCredentialToHolder()
+  await signerCreateAndSignCredential()
+  await signerSendCredentialToHolder()
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?

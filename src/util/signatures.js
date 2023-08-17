@@ -24,7 +24,6 @@ const documents = {
   "https://w3id.org/security/suites/jws-2020/v1": suiteContext,
 };
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const customDocLoader = (url) => {
   const context = documents[url];
 
@@ -45,19 +44,18 @@ const customDocLoader = (url) => {
 };
 
 //Extended document load that uses local contexts
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const documentLoader = extendContextLoader(customDocLoader);
 
 const signDocument = async (inputDocument) => {
   //Import the example key pair
-  const keyPair = new Bls12381G2KeyPair(keyPairOptions);
+  const keyPair = await new Bls12381G2KeyPair(keyPairOptions);
 
   console.log("Input document");
   console.log(JSON.stringify(inputDocument, null, 2));
 
   //Sign the input document
   const signedDocument = await sign(inputDocument, {
-    suite: new BbsBlsSignature2020({ keyPair }),
+    suite: new BbsBlsSignature2020({ key: keyPair }),
     purpose: new purposes.AssertionProofPurpose(),
     documentLoader,
   });
@@ -75,7 +73,7 @@ const signDocument = async (inputDocument) => {
   console.log("Verification result");
   console.log(JSON.stringify(verified, null, 2));
 
-  return { document, verification }
+  return { signedDocument, verified }
 };
 
 const deriveDocument = async (signedDocument) => {
