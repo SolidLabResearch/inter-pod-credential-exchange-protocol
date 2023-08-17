@@ -1,7 +1,7 @@
-const { checkCssIsAvailable } = require("./server")
-const { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder } = require("./signer")
-const { setupHolder, holderDeriveProof, holderSendProofToVerifier } = require("./holder")
-const { setupVerifier, verifierRequestProofFromHolder, verifierVerify } = require("./verifier")
+const { checkCssIsAvailable } = require("./src/server")
+const { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder } = require("./src/signer")
+const { setupHolder, holderDeriveProof, holderSendProofToVerifier } = require("./src/holder")
+const { setupVerifier, verifierRequestProofFromHolder, verifierVerify } = require("./src/verifier")
 
 // Q: better start all pods at the same time or have them run separate?
 const demo = async () => {
