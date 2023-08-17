@@ -7,7 +7,7 @@ const { setupVerifier, verifierRequestProofFromHolder, verifierVerify } = requir
 const demo = async () => {
   // 0. make sure CSS runs and is available
   // - reset everything? -> using in-memory config; always resets
-  await checkCssIsAvailable()
+  checkCssIsAvailable()
 
   // 1. setup pods 
   // - empty/reset them

@@ -1,8 +1,13 @@
-const serverUrl = 'http://localhost:3000/'
-const serverIdp = serverUrl + 'idp/register/'
+
+// this is the 'global' address of the server. 
+// it should be imported from here
+const serverUrls = {
+  baseUrl: 'http://localhost:3000/',
+  IdpUrl: this.baseUrl + 'idp/register/'
+}
 
 const checkCssIsAvailable = async () => {
-  fetch(serverUrl, {
+  fetch(serverUrls.baseUrl, {
     method: "GET",
   }).then(response => response)
     .then(data => {
@@ -15,5 +20,4 @@ const checkCssIsAvailable = async () => {
     });
 }
 
-
-module.exports = { checkCssIsAvailable }
+module.exports = { checkCssIsAvailable, serverUrls }
