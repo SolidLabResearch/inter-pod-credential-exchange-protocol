@@ -57,8 +57,6 @@ const buildAuthFetch = async (accessToken, dpopKey) => {
   const authFetch = await buildAuthenticatedFetch(fetch, accessToken, { dpopKey });
   return authFetch
   // authFetch can now be used as a standard fetch function that will authenticate as your WebID.
-  // This request will do a simple GET for example.
-  //const response = await authFetch('http://localhost:3000/private');
 }
 
 const login = async (credentials) => {

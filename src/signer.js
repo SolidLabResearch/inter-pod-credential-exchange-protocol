@@ -1,5 +1,7 @@
 const { login } = require('./util/login.js')
-const { severUrls, serverUrls } = require('./server.js')
+const { putResourceOnPod } = require('./util/util.js')
+const { serverUrls } = require('./server.js')
+const inputDocument = require("../data/inputDocument.json")
 
 // the signer signs the credential document
 // he/she/it knows the identity of the holder and is authorized/trusted to issue a document about the holder
@@ -20,19 +22,8 @@ const setupSigner = async () => {
   console.log('got credentials for signer')
 
   // 2. put initial doc on the pod
-  await authFetch(pathOnServer, {
-    method: "PUT",
-    headers: {
-      "content-type": "application/ld+json",
-      "rel": "http://www.w3.org/ns/json-ld#context"
-    },
-    body: JSON.stringify(document, null, 2)
-  })
-
-
-
-
-
+  const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)
+  console.log('put intial document on %s\'s pod. Status: %s', signer_credentials.podName, result.status)
 }
 
 const signerCreateAndSignCredential = () => { }
