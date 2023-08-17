@@ -1,3 +1,4 @@
+// TODO move to util? probably not
 
 // this is the 'global' address of the server. 
 // it should be imported from here

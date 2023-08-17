@@ -14,9 +14,9 @@ const demo = async () => {
   // - empty/reset them
   // - register/create user and password
   // - put (possible) default resources
-  // - ACP/WAC? (WAC is easier, ACP does a bit more)
+  // - ACP/WAC? (WAC is easier, ACP does a bit more) TODO
   // - have them run idle
-  // the setup scripts are separate, as we 
+  // the setup scripts are separate, as the pods have access to different informations
   setupSigner()
   setupHolder()
   setupVerifier()
@@ -31,6 +31,7 @@ const demo = async () => {
   //  -> simulate the interaction between Holder and Verifier?
 
   // 2b. Holder -> Verifier
+  // TODO how does the verifier notify the holder about the format and required revealed information on the derivation?
   verifierRequestProofFromHolder()
   holderDeriveProof()
   holderSendProofToVerifier()

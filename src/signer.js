@@ -1,4 +1,5 @@
 const { login } = require('./util/login.js')
+const { signDocument } = require('./util/signatures.js')
 const { putResourceOnPod } = require('./util/util.js')
 const { serverUrls } = require('./server.js')
 const inputDocument = require("../data/inputDocument.json")
@@ -26,7 +27,12 @@ const setupSigner = async () => {
   console.log('put intial document on %s\'s pod. Status: %s', signer_credentials.podName, result.status)
 }
 
-const signerCreateAndSignCredential = () => { }
+const signerCreateAndSignCredential = async () => {
+  const result = await signDocument(inputDocument)
+  console.log(result)
+
+
+}
 
 const signerSendCredentialToHolder = () => { }
 
