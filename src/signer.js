@@ -19,7 +19,7 @@ const initialDocUrl = serverUrls.baseUrl + signer_credentials.podName + '/privat
 const setupSigner = async () => {
   // 1. get/create the auth fetch
   const { accessToken, dpopKey, authFetch } = await login(signer_credentials)
-  console.log('got credentials for signer')
+  console.log('got credentials for %s', signer_credentials.podName)
 
   // 2. put initial doc on the pod
   const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)

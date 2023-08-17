@@ -1,3 +1,4 @@
+const { login } = require('./util/login.js')
 
 // TODO: read these from the `seed-pods.json` file?
 const verifier_credentials = {
@@ -6,7 +7,12 @@ const verifier_credentials = {
   password: "verifier"
 }
 
-const setupVerifier = () => { }
+const setupVerifier = async () => {
+  // 1. get/create the auth fetch
+  const { accessToken, dpopKey, authFetch } = await login(verifier_credentials)
+  console.log('got credentials for %s', verifier_credentials.podName)
+}
+
 const verifierRequestProofFromHolder = () => { }
 const verifierVerify = () => { }
 
