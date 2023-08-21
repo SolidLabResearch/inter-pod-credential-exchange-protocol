@@ -29,9 +29,11 @@ const setupSigner = async () => {
 
 const signerCreateAndSignCredential = async () => {
   const result = await signDocument(inputDocument)
-  console.log(result)
-
-
+  console.log('Verificaton result: %s', result.verificationResult.verified)
+  if (!result.verificationResult.verified) {
+    console.log("aborting; could not sign document successfully!")
+    process.exit()
+  }
 }
 
 const signerSendCredentialToHolder = () => { }

@@ -64,16 +64,16 @@ const signDocument = async (inputDocument) => {
   console.log(JSON.stringify(signedDocument, null, 2));
 
   //Verify the proof
-  const verified = await verify(signedDocument, {
+  const verificationResult = await verify(signedDocument, {
     suite: new BbsBlsSignature2020(),
     purpose: new purposes.AssertionProofPurpose(),
     documentLoader,
   });
 
   console.log("Verification result");
-  console.log(JSON.stringify(verified, null, 2));
+  console.log(JSON.stringify(verificationResult, null, 2));
 
-  return { signedDocument, verified }
+  return { signedDocument, verificationResult }
 };
 
 const deriveDocument = async (signedDocument) => {
