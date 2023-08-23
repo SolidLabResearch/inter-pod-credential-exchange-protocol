@@ -61,10 +61,11 @@ const signerSendCredentialToHolder = async (authFetch) => {
   console.log(headers)
 
   // first url that comes before 'ldp#inbox
-  const inboxRegexp = `\<([\\w\\d\\s\\/:]*)\>[\\w\\d\\s;=]*("http:\\/\\/www.w3.org/ns/ldp#inbox")`
-  console.log(inboxRegexp)
+  const inboxRegexp = `\<(?<inbox>[\\w\\d\\s\\/:]*)\>[\\w\\d\\s;=]*("http:\\/\\/www.w3.org/ns/ldp#inbox")`
+  //console.log(inboxRegexp)
   const matches = headers.match(inboxRegexp)
-  console.log(matches)
+  const holderInbox = matches.groups['inbox']
+  console.log('Discovered inbox: %s', holderInbox)
 
 }
 
