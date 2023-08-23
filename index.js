@@ -18,8 +18,8 @@ const demo = async () => {
   // - have them run idle
   // the setup scripts are separate, as the pods have access to different informations
   await setupSigner()
-  // await setupHolder()
-  // await setupVerifier()
+  await setupHolder()
+  await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
 

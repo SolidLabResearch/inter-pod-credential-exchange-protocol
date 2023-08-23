@@ -13,6 +13,11 @@ const setupHolder = async () => {
   // 1. login and get/create the auth fetch
   const { accessToken, dpopKey, authFetch } = await login(holder_credentials)
   console.log('got credentials for %s', holder_credentials.podName)
+
+  // 2. create LDN inbox
+  await setupInbox(authFetch, podUrl)
+
+
 }
 
 const holderDeriveProof = () => { }

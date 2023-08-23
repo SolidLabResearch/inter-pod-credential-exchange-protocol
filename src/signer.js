@@ -18,23 +18,21 @@ const signer_credentials = {
 }
 const podUrl = serverUrls.baseUrl + signer_credentials.podName + '/' // the '/' is importan!
 const initialDocUrl = podUrl + 'private/initialDoc'
-const inboxUrl = serverUrls.baseUrl + signer_credentials.podName + 'inbox'
 
 const setupSigner = async () => {
   // 1. get/create the auth fetch
   const { accessToken, dpopKey, authFetch } = await login(signer_credentials)
   console.log('got credentials for %s', signer_credentials.podName)
 
-  // 2-pre. discover pod description resources
+  // 2-pre: discover pod description resources
   // TODO HEAD to get the .meta, then discover the correct location
   // discoverDescriptionResource(authFetch, podUrl)
   // 2. create LDN inbox
-  setupInbox(authFetch, podUrl)
-
+  const inboxUrl = await setupInbox(authFetch, podUrl)
 
   // 3. put initial doc on the pod
   const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)
-  console.log('put intial document on %s\'s pod. Status: %s', signer_credentials.podName, result.status)
+  console.log('PUT intial document on %s\'s pod. Status: %s - %s', signer_credentials.podName, result.status, result.statusText)
 }
 
 const signerCreateAndSignCredential = async () => {

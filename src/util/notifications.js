@@ -11,10 +11,24 @@
 // note: on CSS, due to security considerations and to prevent flooding an inbox by default, it is required to set up the inbox manually
 // resource -> resource.meta
 
-// we'll just default to /podName/inbox
-// - TODO: reasons against this?
-// TODO do we need to also create the /inbox resource?
+// defaults to 'podName/inbox/'
+// DONE do we need to also create the inbox/ resource? >> Yes.
 const setupInbox = async (authFetch, podUrl) => {
+  console.log('setting up inbox for %s', podUrl)
+
+  const metaResourceUrl = podUrl + '.meta'
+  const inboxUrl = podUrl + 'inbox/'
+
+  console.log('meta: %s\ninbox: %s', metaResourceUrl, inboxUrl)
+
+  // 1. Create (PUT) the inbox/ container
+  // This will 409 if called again
+  const putInboxResult = await authFetch(inboxUrl, {
+    method: "PUT"
+  })
+  console.log('PUT inbox container. Status: %s - %s', putInboxResult.status, putInboxResult.statusText)
+
+  // 2. PATCH .meta to add the ldb#inbox
   const options = {
     method: "PATCH",
     headers: {
@@ -22,20 +36,27 @@ const setupInbox = async (authFetch, podUrl) => {
     },
     body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.
 <> a solid:InsertDeletePatch;
-solid:inserts { <http://localhost:3000/signer/> <http://www.w3.org/ns/ldp#inbox> <http://localhost:3000/signer/inbox/>. }.`
+solid:inserts { <${podUrl}> <http://www.w3.org/ns/ldp#inbox> <${inboxUrl}>. }.`
 
   }
-  const result = await authFetch(podUrl + '.meta', options)
-  console.log(result)
-  console.log('Patching inbox. Status: %s %s', result.status, result.statusText)
 
+  const patchResult = await authFetch(metaResourceUrl, options)
+  console.log('Patching inbox location. Status: %s - %s', patchResult.status, patchResult.statusText)
 
-  const head = await authFetch(podUrl + '.meta', {
+  // 2-post. check if the link headers were set up correctly
+  const head = await authFetch(podUrl, {
     method: "HEAD"
   })
-  console.log(head.headers)
+  console.log('Link headers of %s:\n%s', podUrl, head.headers.get('link'))
 
+  // TODO check for inbox creation
+  // TODO check for 205 and 409
+  if (patchResult.status < 200 && patchResult.status >= 300) {
+    console.log("aborting; failed to patch inbox!")
+    process.exit()
+  }
 
+  return inboxUrl
 }
 
 module.exports = { setupInbox }
