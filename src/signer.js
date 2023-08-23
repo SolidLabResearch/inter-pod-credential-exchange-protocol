@@ -17,6 +17,7 @@ const signer_credentials = {
   password: "signer"
 }
 const podUrl = serverUrls.baseUrl + signer_credentials.podName + '/' // the '/' is importan!
+const webIdProfileUrl = podUrl + 'profile/card'
 const initialDocUrl = podUrl + 'private/initialDoc'
 
 const setupSigner = async () => {
@@ -28,7 +29,7 @@ const setupSigner = async () => {
   // TODO HEAD to get the .meta, then discover the correct location
   // discoverDescriptionResource(authFetch, podUrl)
   // 2. create LDN inbox
-  const inboxUrl = await setupInbox(authFetch, podUrl)
+  const inboxUrl = await setupInbox(authFetch, podUrl, webIdProfileUrl)
 
   // 3. put initial doc on the pod
   const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)
@@ -44,6 +45,11 @@ const signerCreateAndSignCredential = async () => {
   }
 }
 
-const signerSendCredentialToHolder = () => { }
+// signer knows Alice's WebID (=holder)
+// signer fetches WebID
+const signerSendCredentialToHolder = () => {
+
+
+}
 
 module.exports = { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder }

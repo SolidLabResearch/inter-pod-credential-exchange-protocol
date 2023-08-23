@@ -25,8 +25,8 @@ const demo = async () => {
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  //await signerCreateAndSignCredential()
-  //await signerSendCredentialToHolder()
+  await signerCreateAndSignCredential()
+  await signerSendCredentialToHolder()
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?

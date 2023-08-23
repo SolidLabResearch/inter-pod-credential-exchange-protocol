@@ -9,6 +9,7 @@ const holder_credentials = {
   password: "holder"
 }
 const podUrl = serverUrls.baseUrl + holder_credentials.podName + '/' // the '/' is importan!
+const webIdProfileUrl = podUrl + 'profile/card'
 const derivationUrl = podUrl + 'private/derivation'
 
 const setupHolder = async () => {
@@ -17,7 +18,7 @@ const setupHolder = async () => {
   console.log('got credentials for %s', holder_credentials.podName)
 
   // 2. create LDN inbox
-  const inboxUrl = await setupInbox(authFetch, podUrl)
+  const inboxUrl = await setupInbox(authFetch, podUrl, webIdProfileUrl)
   console.log('holder inbox is at %s', inboxUrl)
 
 

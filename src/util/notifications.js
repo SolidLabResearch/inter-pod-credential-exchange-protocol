@@ -13,10 +13,10 @@
 
 // defaults to 'podName/inbox/'
 // DONE do we need to also create the inbox/ resource? >> Yes.
-const setupInbox = async (authFetch, podUrl) => {
+const setupInbox = async (authFetch, podUrl, webIdProfileUrl) => {
   console.log('setting up inbox for %s', podUrl)
 
-  const metaResourceUrl = podUrl + '.meta'
+  const metaResourceUrl = webIdProfileUrl + '.meta'
   const inboxUrl = podUrl + 'inbox/'
 
   console.log('meta: %s\ninbox: %s', metaResourceUrl, inboxUrl)
@@ -36,18 +36,17 @@ const setupInbox = async (authFetch, podUrl) => {
     },
     body: `@prefix solid: <http://www.w3.org/ns/solid/terms#>.
 <> a solid:InsertDeletePatch;
-solid:inserts { <${podUrl}> <http://www.w3.org/ns/ldp#inbox> <${inboxUrl}>. }.`
+solid:inserts { <${webIdProfileUrl}> <http://www.w3.org/ns/ldp#inbox> <${inboxUrl}>. }.`
 
   }
-
   const patchResult = await authFetch(metaResourceUrl, options)
   console.log('Patching inbox location. Status: %s - %s', patchResult.status, patchResult.statusText)
 
   // 2-post. check if the link headers were set up correctly
-  const head = await authFetch(podUrl, {
+  const head = await authFetch(webIdProfileUrl, {
     method: "HEAD"
   })
-  console.log('Link headers of %s:\n%s', podUrl, head.headers.get('link'))
+  console.log('Link headers of %s:\n%s', webIdProfileUrl, head.headers.get('link'))
 
   // TODO check for inbox creation
   // TODO check for 205 and 409

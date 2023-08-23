@@ -10,6 +10,7 @@ const verifier_credentials = {
 }
 
 const podUrl = serverUrls.baseUrl + verifier_credentials.podName + '/' // the '/' is important!
+const webIdProfileUrl = podUrl + 'profile/card'
 
 const setupVerifier = async () => {
   // 1. get/create the auth fetch
@@ -17,7 +18,7 @@ const setupVerifier = async () => {
   console.log('got credentials for %s', verifier_credentials.podName)
 
   // 2. create LDN inbox
-  const inboxUrl = await setupInbox(authFetch, podUrl)
+  const inboxUrl = await setupInbox(authFetch, podUrl, webIdProfileUrl)
   console.log('verifier inbox is at %s', inboxUrl)
 }
 
