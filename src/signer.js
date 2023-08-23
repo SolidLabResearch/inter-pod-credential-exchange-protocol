@@ -1,4 +1,5 @@
 const { login } = require('./util/login.js')
+const { setupInbox } = require('./util/notifications.js')
 const { signDocument } = require('./util/signatures.js')
 const { putResourceOnPod } = require('./util/util.js')
 const { serverUrls } = require('./server.js')
@@ -15,14 +16,23 @@ const signer_credentials = {
   email: "signer@solid.server",
   password: "signer"
 }
-const initialDocUrl = serverUrls.baseUrl + signer_credentials.podName + '/private/initialDoc'
+const podUrl = serverUrls.baseUrl + signer_credentials.podName + '/' // the '/' is importan!
+const initialDocUrl = podUrl + 'private/initialDoc'
+const inboxUrl = serverUrls.baseUrl + signer_credentials.podName + 'inbox'
 
 const setupSigner = async () => {
   // 1. get/create the auth fetch
   const { accessToken, dpopKey, authFetch } = await login(signer_credentials)
   console.log('got credentials for %s', signer_credentials.podName)
 
-  // 2. put initial doc on the pod
+  // 2-pre. discover pod description resources
+  // TODO HEAD to get the .meta, then discover the correct location
+  // discoverDescriptionResource(authFetch, podUrl)
+  // 2. create LDN inbox
+  setupInbox(authFetch, podUrl)
+
+
+  // 3. put initial doc on the pod
   const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)
   console.log('put intial document on %s\'s pod. Status: %s', signer_credentials.podName, result.status)
 }
