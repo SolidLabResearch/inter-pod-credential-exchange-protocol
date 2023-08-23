@@ -13,6 +13,7 @@
 
 // defaults to 'podName/inbox/'
 // DONE do we need to also create the inbox/ resource? >> Yes.
+// TODO Should we instead advertise the inbox in the webid-profile? See https://solid.github.io/webid-profile/#inbox
 const setupInbox = async (authFetch, podUrl, webIdProfileUrl) => {
   console.log('setting up inbox for %s', podUrl)
 

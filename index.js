@@ -18,15 +18,15 @@ const demo = async () => {
   // - have them run idle
   // the setup scripts are separate, as the pods have access to different informations
   // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
-  await setupSigner()
-  await setupHolder()
-  await setupVerifier()
+  const signerAuthFetch = await setupSigner()
+  // await setupHolder()
+  // await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  await signerCreateAndSignCredential()
-  await signerSendCredentialToHolder()
+  //await signerCreateAndSignCredential()
+  await signerSendCredentialToHolder(signerAuthFetch)
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?

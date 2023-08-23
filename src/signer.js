@@ -34,6 +34,8 @@ const setupSigner = async () => {
   // 3. put initial doc on the pod
   const result = await putResourceOnPod(authFetch, initialDocUrl, inputDocument)
   console.log('PUT intial document on %s\'s pod. Status: %s - %s', signer_credentials.podName, result.status, result.statusText)
+
+  return authFetch
 }
 
 const signerCreateAndSignCredential = async () => {
@@ -45,10 +47,24 @@ const signerCreateAndSignCredential = async () => {
   }
 }
 
-// signer knows Alice's WebID (=holder)
-// signer fetches WebID
-const signerSendCredentialToHolder = () => {
+// pre. signer knows Alice's WebID (=holder)
+// 1. signer fetches Alice's WebID to discover her inbox
+// 2. signer POSTs a notification to the inbox (containing the signed document)
+const signerSendCredentialToHolder = async (authFetch) => {
+  // 1. discover inbox
+  // TODO: check if we can really assume Alice's WebId
+  const holderWebId = 'http://localhost:3000/signer/profile/card#me'
+  const discoveryResult = await authFetch(holderWebId)
+  console.log('discovering holder inbox via %s', holderWebId)
+  //console.log(await discoveryResult.text()) // inbox is only in the .meta/headers currently
+  const headers = discoveryResult.headers.get('link')
+  console.log(headers)
 
+  // first url that comes before 'ldp#inbox
+  const inboxRegexp = `\<([\\w\\d\\s\\/:]*)\>[\\w\\d\\s;=]*("http:\\/\\/www.w3.org/ns/ldp#inbox")`
+  console.log(inboxRegexp)
+  const matches = headers.match(inboxRegexp)
+  console.log(matches)
 
 }
 
