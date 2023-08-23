@@ -17,6 +17,7 @@ const demo = async () => {
   // - ACP/WAC? (WAC is easier, ACP does a bit more) TODO
   // - have them run idle
   // the setup scripts are separate, as the pods have access to different informations
+  // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
   await setupSigner()
   await setupHolder()
   await setupVerifier()
