@@ -1,0 +1,60 @@
+# Root ACL resource for the agent account
+@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+# The homepage is readable by the public
+<#public>
+    a acl:Authorization;
+    acl:agentClass foaf:Agent;
+    acl:accessTo <./>;
+    acl:mode acl:Read.
+
+# The owner has full access to every resource in their pod.
+# Other agents have no access rights,
+# unless specifically authorized in other .acl resources.
+<#owner>
+    a acl:Authorization;
+    acl:agent <http://localhost:3000/signer/profile/card#me>;
+    # Optional owner email, to be used for account recovery:
+    acl:agent <mailto:signer@solid.server>;
+    # Set the access to the root storage folder itself
+    acl:accessTo <./>;
+    # All resources will inherit this authorization, by default
+    acl:default <./>;
+    # The owner has all of the access modes allowed
+    acl:mode
+        acl:Read, acl:Write, acl:Control.
+
+####
+# ACL resource for the WebID profile document
+@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+# The WebID profile is readable by the public.
+# This is required for discovery and verification,
+# e.g. when checking identity providers.
+<#public>
+    a acl:Authorization;
+    acl:agentClass foaf:Agent;
+    acl:accessTo <./card>;
+    acl:mode acl:Read.
+
+# The owner has full access to the profile
+<#owner>
+    a acl:Authorization;
+    acl:agent <http://localhost:3000/signer/profile/card#me>;
+    acl:accessTo <./card>;
+    acl:mode acl:Read, acl:Write, acl:Control.
+
+
+
+####
+<http://localhost:3000/signer/.acl#owner> a <http://www.w3.org/ns/auth/acl#Authorization>;
+    <http://www.w3.org/ns/auth/acl#agent> <http://localhost:3000/signer/profile/card#me>, <mailto:signer@solid.server>;
+    <http://www.w3.org/ns/auth/acl#mode> <http://www.w3.org/ns/auth/acl#Read>, <http://www.w3.org/ns/auth/acl#Control>, <http://www.w3.org/ns/auth/acl#Append>, <http://www.w3.org/ns/auth/acl#Write>;
+    <http://www.w3.org/ns/auth/acl#accessTo> <http://localhost:3000/signer/inbox/>;
+    <http://www.w3.org/ns/auth/acl#default> <http://localhost:3000/signer/inbox/>.
+<#public> a <http://www.w3.org/ns/auth/acl#Authorization>;
+    <http://www.w3.org/ns/auth/acl#mode> <http://www.w3.org/ns/auth/acl#Append>;
+    <http://www.w3.org/ns/auth/acl#accessTo> <http://localhost:3000/signer/inbox/>;
+    <http://www.w3.org/ns/auth/acl#agentClass> <http://xmlns.com/foaf/0.1/Agent>.

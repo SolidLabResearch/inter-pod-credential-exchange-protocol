@@ -10,6 +10,8 @@ const inputDocument = require("../data/inputDocument.json")
 // -> knows holder DID, WebID
 // -> has all required informations to issue/sign the document
 
+// TODO: is there a way to setup the authFetch as 'global static' method?
+
 // TODO: read these from the `seed-pods.json` file?
 const signer_credentials = {
   podName: "signer",
@@ -54,18 +56,45 @@ const signerSendCredentialToHolder = async (authFetch) => {
   // 1. discover inbox
   // TODO: check if we can really assume Alice's WebId
   const holderWebId = 'http://localhost:3000/signer/profile/card#me'
-  const discoveryResult = await authFetch(holderWebId)
-  console.log('discovering holder inbox via %s', holderWebId)
+  const inboxUrl = await discoverInbox(holderWebId, authFetch)
+
+  // 1-post: send test notification
+  sendMessage(inboxUrl, { hallo: "welt", test: true })
+
+}
+
+const discoverInbox = async (targetWebId, authFetch) => {
+  const discoveryResult = await authFetch(targetWebId)
+  console.log('discovering holder inbox via %s', targetWebId)
   //console.log(await discoveryResult.text()) // inbox is only in the .meta/headers currently
   const headers = discoveryResult.headers.get('link')
   console.log(headers)
 
   // first url that comes before 'ldp#inbox
+  // note: regex needs to be excaped..
   const inboxRegexp = `\<(?<inbox>[\\w\\d\\s\\/:]*)\>[\\w\\d\\s;=]*("http:\\/\\/www.w3.org/ns/ldp#inbox")`
   //console.log(inboxRegexp)
   const matches = headers.match(inboxRegexp)
   const holderInbox = matches.groups['inbox']
   console.log('Discovered inbox: %s', holderInbox)
+  // TODO: error checking
+
+  return holderInbox
+}
+
+const sendMessage = async (inboxUrl, message) => {
+  const stringifiedMessage = JSON.stringify(message, null, 2)
+  console.log(stringifiedMessage)
+  const result = await fetch(inboxUrl, {
+    method: "POST",
+    headers: {
+      "content-type": "application/ld+json",
+    },
+    body: stringifiedMessage
+  })
+
+  // expect a 201 or 202 success
+  console.log(result.status)
 
 }
 
