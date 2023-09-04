@@ -46,23 +46,24 @@ const signerCreateAndSignCredential = async () => {
   const result = await signDocument(inputDocument)
   console.log('Verificaton result: %s', result.verificationResult.verified)
   if (!result.verificationResult.verified) {
-    console.log("aborting; could not sign document successfully!")
+    console.log("aborting; could not sign document!")
     process.exit()
   }
+  return result
 }
 
 // pre. signer knows Alice's WebID (=holder)
 // 1. signer fetches Alice's WebID to discover her inbox
 // 2. signer POSTs a notification to the inbox (containing the signed document)
-const signerSendCredentialToHolder = async (authFetch) => {
+const signerSendCredentialToHolder = async (authFetch, signedDocument) => {
   // 1. discover inbox
   // TODO: can we can really assume Holders/Alice's WebId?
   const holderWebId = 'http://localhost:3000/holder/profile/card#me'
-  const inboxUrl = await discoverInbox(holderWebId, authFetch)
+  const inboxUrl = await discoverInbox(holderWebId)
 
   // 1-post: send test notification
   // TODO: JSON-LD?
-  sendMessage(inboxUrl, { content: "hallo welt", from: signer_credentials.webId, dateCreated: new Date().toISOString() })
+  await sendMessage(inboxUrl, { content: signedDocument, from: signer_credentials.webId, dateCreated: new Date().toISOString() })
 }
 
 

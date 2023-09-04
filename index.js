@@ -1,6 +1,6 @@
 const { checkCssIsAvailable } = require("./src/server")
 const { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder } = require("./src/signer")
-const { setupHolder, holderDeriveProof, holderSendProofToVerifier } = require("./src/holder")
+const { setupHolder, holderDeriveProof, holderSendProofToVerifier, holderReceiveCredentials } = require("./src/holder")
 const { setupVerifier, verifierRequestProofFromHolder, verifierVerify } = require("./src/verifier")
 
 // Q: better start all pods at the same time or have them run separate?
@@ -25,11 +25,13 @@ const demo = async () => {
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  //await signerCreateAndSignCredential()
-  await signerSendCredentialToHolder(signerAuthFetch)
+  const signedDocumentResult = await signerCreateAndSignCredential()
+  await signerSendCredentialToHolder(signerAuthFetch, signedDocumentResult)
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?
+
+  await holderReceiveCredentials()
 
   // 2b. Holder -> Verifier
   // TODO how does the verifier notify the holder about the format and required revealed information on the derivation?

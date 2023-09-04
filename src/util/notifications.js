@@ -103,8 +103,8 @@ const createInboxAcl = async (inboxUrl, authFetch) => {
   console.log('PUT inbox ACL. Status: %s - %s', putInboxAclResult.status, putInboxAclResult.statusText)
 }
 
-const discoverInbox = async (targetWebId, authFetch) => {
-  const discoveryResult = await authFetch(targetWebId)
+const discoverInbox = async (targetWebId) => {
+  const discoveryResult = await fetch(targetWebId)
   console.log('discovering inbox via %s', targetWebId)
   const headers = discoveryResult.headers.get('link')
   console.log(headers)
@@ -138,8 +138,13 @@ const sendMessage = async (targetInboxUrl, message) => {
   console.log('notification to be found at %s', result.headers.get('location'))
 }
 
+const discoverNotifications = async (inboxUrl) => {
+  const discoveryResult = await fetch(inboxUrl)
+  console.log(await discoveryResult.text())
+}
 
-module.exports = { setupInbox, discoverInbox, sendMessage }
+
+module.exports = { setupInbox, discoverInbox, sendMessage, discoverNotifications }
 
 // other:
 // - use the authentication/authorization header with DID? >> https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
