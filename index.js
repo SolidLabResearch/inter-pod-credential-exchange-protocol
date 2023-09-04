@@ -19,7 +19,7 @@ const demo = async () => {
   // the setup scripts are separate, as the pods have access to different informations
   // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
   const signerAuthFetch = await setupSigner()
-  // await setupHolder()
+  await setupHolder()
   // await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue

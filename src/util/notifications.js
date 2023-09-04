@@ -14,7 +14,7 @@
 
 // defaults to 'podName/inbox/'
 // DONE do we need to also create the inbox/ resource? >> Yes.
-// TODO Should we instead advertise the inbox in the webid-profile? See https://solid.github.io/webid-profile/#inbox
+// DONE Should we instead advertise the inbox in the webid-profile? See https://solid.github.io/webid-profile/#inbox -> yes.
 const setupInbox = async (authFetch, podUrl, webIdProfileUrl) => {
   console.log('setting up inbox for %s', podUrl)
 
@@ -103,7 +103,43 @@ const createInboxAcl = async (inboxUrl, authFetch) => {
   console.log('PUT inbox ACL. Status: %s - %s', putInboxAclResult.status, putInboxAclResult.statusText)
 }
 
-module.exports = { setupInbox }
+const discoverInbox = async (targetWebId, authFetch) => {
+  const discoveryResult = await authFetch(targetWebId)
+  console.log('discovering inbox via %s', targetWebId)
+  const headers = discoveryResult.headers.get('link')
+  console.log(headers)
+
+  // first url that comes before 'ldp#inbox
+  // note: regex needs to be excaped..
+  const inboxRegexp = `\<(?<inbox>[\\w\\d\\s\\/:]*)\>[\\w\\d\\s;=]*("http:\\/\\/www.w3.org/ns/ldp#inbox")`
+  //console.log(inboxRegexp)
+  const matches = headers.match(inboxRegexp)
+  const matchedInbox = matches.groups['inbox']
+  console.log('Discovered inbox: %s', matchedInbox)
+  // TODO: error checking
+
+  return matchedInbox
+}
+
+const sendMessage = async (targetInboxUrl, message) => {
+  console.log('sending message')
+  const stringifiedMessage = JSON.stringify(message, null, 2)
+  console.log(stringifiedMessage)
+  const result = await fetch(targetInboxUrl, {
+    method: "POST",
+    headers: {
+      "content-type": "application/ld+json",
+    },
+    body: stringifiedMessage
+  })
+
+  // expect a 201 or 202 success
+  console.log(result.status)
+  console.log('notification to be found at %s', result.headers.get('location'))
+}
+
+
+module.exports = { setupInbox, discoverInbox, sendMessage }
 
 // other:
 // - use the authentication/authorization header with DID? >> https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
