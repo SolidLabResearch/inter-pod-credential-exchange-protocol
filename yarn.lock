@@ -6697,9 +6697,39 @@ rdf-object@^1.14.0:
     rdf-string "^1.6.0"
     streamify-array "^1.0.1"
 
-rdf-parse@^2.0.0, rdf-parse@^2.3.2:
+rdf-parse@^2.0.0:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/rdf-parse/-/rdf-parse-2.3.2.tgz#83539491f7e348f34d314c585a18f0ba707e2368"
+  integrity sha512-TOeI7FKlyr/GupfGaXZvpMLzvByOrtwt4zHLMuuy3deNGse9QyhHsspVraZam491sIgBogdchzcUqkf2WXnAsg==
+  dependencies:
+    "@comunica/actor-http-fetch" "^2.0.1"
+    "@comunica/actor-http-proxy" "^2.0.1"
+    "@comunica/actor-rdf-parse-html" "^2.0.1"
+    "@comunica/actor-rdf-parse-html-microdata" "^2.0.1"
+    "@comunica/actor-rdf-parse-html-rdfa" "^2.0.1"
+    "@comunica/actor-rdf-parse-html-script" "^2.0.1"
+    "@comunica/actor-rdf-parse-jsonld" "^2.0.1"
+    "@comunica/actor-rdf-parse-n3" "^2.0.1"
+    "@comunica/actor-rdf-parse-rdfxml" "^2.0.1"
+    "@comunica/actor-rdf-parse-shaclc" "^2.6.2"
+    "@comunica/actor-rdf-parse-xml-rdfa" "^2.0.1"
+    "@comunica/bus-http" "^2.0.1"
+    "@comunica/bus-init" "^2.0.1"
+    "@comunica/bus-rdf-parse" "^2.0.1"
+    "@comunica/bus-rdf-parse-html" "^2.0.1"
+    "@comunica/config-query-sparql" "^2.0.1"
+    "@comunica/core" "^2.0.1"
+    "@comunica/mediator-combine-pipeline" "^2.0.1"
+    "@comunica/mediator-combine-union" "^2.0.1"
+    "@comunica/mediator-number" "^2.0.1"
+    "@comunica/mediator-race" "^2.0.1"
+    "@rdfjs/types" "*"
+    readable-stream "^4.3.0"
+    stream-to-string "^1.2.0"
+
+rdf-parse@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.npmjs.org/rdf-parse/-/rdf-parse-2.3.2.tgz#83539491f7e348f34d314c585a18f0ba707e2368"
   integrity sha512-TOeI7FKlyr/GupfGaXZvpMLzvByOrtwt4zHLMuuy3deNGse9QyhHsspVraZam491sIgBogdchzcUqkf2WXnAsg==
   dependencies:
     "@comunica/actor-http-fetch" "^2.0.1"

@@ -24,8 +24,18 @@ const setupHolder = async () => {
 }
 
 const holderReceiveCredentials = async () => {
+  console.log('discovering notifications')
+  // 1. discover the notifications in the inbox
   const inboxUrl = await discoverInbox(holder_credentials.webId)
-  await discoverNotifications(inboxUrl)
+  const notificationUrls = await discoverNotifications(inboxUrl)
+
+  // 2. read the notifications one-by-one
+  // - delete/mark read?
+  // - find the first notification from the Signer?
+  console.log('readings notifications')
+  notificationUrls.forEach((url) => {
+    console.log(url)
+  })
 
 }
 

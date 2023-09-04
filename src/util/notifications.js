@@ -141,7 +141,33 @@ const sendMessage = async (targetInboxUrl, message) => {
 const discoverNotifications = async (inboxUrl) => {
   const discoveryResult = await fetch(inboxUrl)
   console.log('notifications discovery: status %s', discoveryResult.status)
-  console.log(await discoveryResult.text())
+  const body = await discoveryResult.text()
+  console.log(body)
+  const notificationUrls = parseNotifications(body)
+  return notificationUrls
+}
+
+// TODO do this with an RDF lib :)
+// this parses the 'ldp:contains' string and then finds the notification urls via regex
+const parseNotifications = (input) => {
+  // first get the full string with all notifications
+  const notificationsRegexp = 'ldp\\:contains ([a-zA-Z0-9\\<\\>\\.\\,\\- ]*)'
+  const notificationsString = input.match(notificationsRegexp);
+  const matchedString = notificationsString[0]
+  console.log(matchedString) // only the result
+
+  // then filter for the single notifications (inside of the '<>')
+  const singleNotificationRegex = '<([\\w\\d-]*)>'
+  const matches = [...matchedString.matchAll(singleNotificationRegex)]
+
+  const urls = new Array()
+  matches.forEach((url) => {
+    const urlString = url[1]
+    console.log(urlString)
+    urls.push(urlString)
+  })
+
+  return urls
 }
 
 

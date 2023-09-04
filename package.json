@@ -16,7 +16,8 @@
   "dependencies": {
     "@inrupt/solid-client-authn-core": "^1.17.1",
     "@mattrglobal/jsonld-signatures-bbs": "^1.1.2",
-    "@solid/community-server": "^6.0.1"
+    "@solid/community-server": "^6.0.1",
+    "rdf-parse": "^2.3.2"
   },
   "scripts": {
     "test": "jest",
