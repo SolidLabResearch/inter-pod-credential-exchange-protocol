@@ -140,6 +140,7 @@ const sendMessage = async (targetInboxUrl, message) => {
 
 const discoverNotifications = async (inboxUrl) => {
   const discoveryResult = await fetch(inboxUrl)
+  console.log('notifications discovery: status %s', discoveryResult.status)
   console.log(await discoveryResult.text())
 }
 
