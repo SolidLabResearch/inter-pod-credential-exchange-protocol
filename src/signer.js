@@ -11,6 +11,7 @@ const inputDocument = require("../data/inputDocument.json")
 // -> has all required informations to issue/sign the document
 
 // TODO: is there a way to setup the authFetch as 'global static' method?
+// or even better - bake in the auth credentials on the fly? as Singleton?
 
 // TODO: read these from the `seed-pods.json` file?
 const signer_credentials = {
@@ -95,7 +96,7 @@ const sendMessage = async (inboxUrl, message) => {
 
   // expect a 201 or 202 success
   console.log(result.status)
-
+  console.log('notification to be found at %s', result.headers.get('location'))
 }
 
 module.exports = { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder }

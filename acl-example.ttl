@@ -58,3 +58,13 @@
     <http://www.w3.org/ns/auth/acl#mode> <http://www.w3.org/ns/auth/acl#Append>;
     <http://www.w3.org/ns/auth/acl#accessTo> <http://localhost:3000/signer/inbox/>;
     <http://www.w3.org/ns/auth/acl#agentClass> <http://xmlns.com/foaf/0.1/Agent>.
+
+###
+@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+<#public>
+    a acl:Authorization;
+    acl:agentClass foaf:Agent;
+    acl:accessTo <./>;
+    acl:mode acl:Read, acl:Append.
