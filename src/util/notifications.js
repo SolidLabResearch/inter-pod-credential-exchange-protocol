@@ -138,6 +138,7 @@ const sendMessage = async (targetInboxUrl, message) => {
   console.log('notification to be found at %s', result.headers.get('location'))
 }
 
+// discovers all the notifications in a inbox
 const discoverNotifications = async (inboxUrl) => {
   const discoveryResult = await fetch(inboxUrl)
   console.log('notifications discovery: status %s', discoveryResult.status)
@@ -147,8 +148,8 @@ const discoverNotifications = async (inboxUrl) => {
   return notificationUrls
 }
 
-// TODO do this with an RDF lib :)
 // this parses the 'ldp:contains' string and then finds the notification urls via regex
+// TODO do this with an RDF lib :)
 const parseNotifications = (input) => {
   // first get the full string with all notifications
   const notificationsRegexp = 'ldp\\:contains ([a-zA-Z0-9\\<\\>\\.\\,\\- ]*)'
@@ -170,8 +171,14 @@ const parseNotifications = (input) => {
   return urls
 }
 
+// GET a single notification
+const getNotification = async (notificationUrl) => {
+  console.log('getting notification at %s', notificationUrl)
+  const result = await fetch(notificationUrl)
+  return result
+}
 
-module.exports = { setupInbox, discoverInbox, sendMessage, discoverNotifications }
+module.exports = { setupInbox, discoverInbox, sendMessage, discoverNotifications, getNotification }
 
 // other:
 // - use the authentication/authorization header with DID? >> https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization

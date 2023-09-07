@@ -19,7 +19,7 @@ const demo = async () => {
   // the setup scripts are separate, as the pods have access to different informations
   // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
   const signerAuthFetch = await setupSigner()
-  await setupHolder()
+  const holderAuthFetch = await setupHolder()
   // await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
@@ -31,7 +31,7 @@ const demo = async () => {
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?
 
-  await holderReceiveCredentials()
+  await holderReceiveCredentials(holderAuthFetch)
 
   // 2b. Holder -> Verifier
   // TODO how does the verifier notify the holder about the format and required revealed information on the derivation?
