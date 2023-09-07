@@ -61,7 +61,7 @@ const signerSendCredentialToHolder = async (authFetch, signedDocument) => {
   const holderWebId = 'http://localhost:3000/holder/profile/card#me'
   const inboxUrl = await discoverInbox(holderWebId)
 
-  // 1-post: send test notification
+  // 1-post: send document
   // TODO: JSON-LD?
   await sendMessage(inboxUrl, { content: signedDocument, from: signer_credentials.webId, dateCreated: new Date().toISOString() })
 }
