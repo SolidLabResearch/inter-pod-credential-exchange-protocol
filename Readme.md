@@ -1,15 +1,35 @@
 # Readme
 
+
+
+## Setup
+
+`npm install` to install everything. 
+
+## Run the code
+
 1. `yarn run serve` to start the CSS
 2. `node index.js` to run the demo
 
-## Tests (TODO)
+TODO: just do it with npm run, remove yarn. Also test this again!
 
-using Jest
+## Results
 
-## Debug
+Running the code will show the following 
 
-Either use Penny or [Bashlib](https://github.com/SolidLabResearch/Bashlib)
+TODO: screenshot, clean console logs
+
+
+
+## Inspect the Pods
+
+**The below is not part of our demo, but might be of interest to follow along. Use on your own, we take no guarantee**
+
+Besides checking the console logs,
+Pods can also be inspected with Solid Pod browsers, 
+for example [Penny]([url](https://penny.vincenttunru.com/)), or [Bashlib](https://github.com/SolidLabResearch/Bashlib).
+
+Below is a short reference to Bashlib.
 
 ```bash
 git clone git@github.com:SolidLabResearch/Bashlib.git
@@ -19,7 +39,7 @@ npm run build
 ```
 
 
-```node
+```bash
 # Create an authenticated session (for CSS 4.0.0 and up)
 node bin/solid.js auth create-token
 # -- and fill in all the questions
@@ -38,4 +58,3 @@ node bin/solid.js cat http://localhost:3000/holder/private/original
 # Or, shorten this to 
 node bin/solid.js ls root:/private/derivation
 ```
-
