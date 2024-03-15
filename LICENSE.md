@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2024 J. Steinbach
+Copyright (c) 2024 [Ghent University - imec](https://www.ugent.be/ea/idlab/en) 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
