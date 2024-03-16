@@ -44,9 +44,9 @@ const holderReceiveCredentials = async (authFetch) => {
   // - delete/mark read?
   // - find the first notification from the Signer?
   // - how do we know we are looking for something from the Signer? -> There is another implicit interaction between Signer and Holder
-  console.log("Holder: consuming notifications");
+  console.log("Holder: filtering notifications");
   // find the notification from the Signer
-  const match = notificationUrls.find(async (url) => {
+  const match = await notificationUrls.find(async (url) => {
     const notificationUrl = inboxUrl + url;
     const notification = await getNotification(notificationUrl);
     const notificationText = await notification.text();
@@ -63,36 +63,57 @@ const holderReceiveCredentials = async (authFetch) => {
         originalDocumentUrl,
         notificationJson.body,
       );
-      console.log("Holder: saved VC at a secure location", result.status);
+      console.log("Holder: unpacked VC to a secure location", result.status);
 
       // 3-post. verify the result
       //const v = await authFetch(originalDocumentUrl);
       // console.log("Holder: consuming it to derify a new VC -- %s", v.status);
       // console.log(v.headers);
       // console.log(await v.text());
-      console.log("Holder: consuming the received credential");
+      //console.log("Holder: consuming the received credential");
       //console.log("Holder: notification type is %s", notificationJson.type);
       //console.log(notificationJson.body);
-      holderDeriveProof(notificationJson.body);
+      //holderDeriveProof(notificationJson.body);
 
       return true;
     }
+    console.log("Holder: didn't find any notification, aborting.");
     return false;
   });
-  console.log("Holder: notification URI is %s", match);
+
+  // Consume notification
+  const notificationUrl = inboxUrl + match;
+  console.log("Holder: notification is at %s", notificationUrl);
+  return await match;
 };
 
-const holderDeriveProof = async (document) => {
+const holderDeriveProof = async (notificationUri) => {
   console.log("Holder: deriving new VC");
+  const inboxUrl = await discoverInbox(holder_credentials.webId);
+
+  const notificationUrl = inboxUrl + notificationUri;
+  const notification = await getNotification(notificationUrl);
+  const notificationText = await notification.text();
+  const notificationJson = await JSON.parse(notificationText);
+  console.log(notificationJson);
+
+  const document = notificationJson.body;
   console.log(document);
+
   const result = await deriveDocument(document.signedDocument);
-  console.log("Holder: derivation success");
   console.log("Holder: new document is %s", result.document);
 
-  console.log("Holder: sending to Verifier");
-  await holderSendProofToVerifier(result.document);
+  // await holderSendProofToVerifier(result.document);
+  // if (!result.verified) {
+  //   console.log("aborting; could not derive document!");
+  //   process.exit();
+  // }
+  console.log("Holder: derivation success");
+  return result.document;
 };
+
 const holderSendProofToVerifier = async (document) => {
+  console.log("Holder: sending derived VC to Verifier");
   const verifierWebId = "http://localhost:3000/verifier/profile/card#me";
   const inboxUrl = await discoverInbox(verifierWebId);
 
@@ -104,7 +125,7 @@ const holderSendProofToVerifier = async (document) => {
     type: "https://example.org/IPCEP/transfer",
     created_time: new Date().toISOString(),
     body: document,
-  }).then("# Holder send derived VC to Verifier");
+  }).then("# Holder sent derived VC to Verifier");
 };
 
 module.exports = {

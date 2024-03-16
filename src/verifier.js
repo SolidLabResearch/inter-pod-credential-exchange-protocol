@@ -2,7 +2,6 @@ const { login } = require("./util/login.js");
 const { serverUrls } = require("./server.js");
 const { setupInbox } = require("./util/notifications.js");
 
-// TODO: read these from the `seed-pods.json` file?
 const verifier_credentials = {
   podName: "verifier",
   email: "verifier@solid.server",
@@ -22,8 +21,8 @@ const setupVerifier = async () => {
   console.log("verifier inbox is at %s", inboxUrl);
 };
 
-const verifierRequestProofFromHolder = () => {};
-const verifierVerify = () => {};
+//const verifierRequestProofFromHolder = () => {};
+const verifierVerify = async () => {};
 
 module.exports = {
   setupVerifier,

@@ -38,24 +38,26 @@ const demo = async () => {
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  const signedDocumentResult = await signerCreateAndSignCredential();
+  const signedDocumentResult = await signerCreateAndSignCredential().then(
+    console.log("# Issuer issued VC"),
+  );
   await signerSendCredentialToHolder(
     signerAuthFetch,
     signedDocumentResult,
-  ).then(console.log("# Signer sent VC to Holder"));
-
-  // TODO: only continue after the Holder holds the credential
-  //  -> simulate the interaction between Holder and Verifier?
-
-  await holderReceiveCredentials(holderAuthFetch).then(() => {
-    console.log("success");
-  });
+  ).then(console.log("# Issuer sent VC to Holder"));
 
   // 2b. Holder -> Verifier
-  //verifierRequestProofFromHolder();
-  //holderDeriveProof();
-  //holderSendProofToVerifier();
-  //verifierVerify();
+  await holderReceiveCredentials(holderAuthFetch).then(async (result) => {
+    console.log("# Holder consuming notification %s", result);
+    await holderDeriveProof(result).then(async (result) => {
+      console.log("# Holder created dervided VC: %s", result);
+      console.log("# Holder send notification to Verifier");
+      await holderSendProofToVerifier(result).then(async () => {
+        console.log("# Verifier receive and process notification");
+        await verifierVerify();
+      });
+    });
+  });
 };
 
 demo();
