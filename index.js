@@ -54,7 +54,7 @@ const demo = async () => {
       console.log("# Holder send notification to Verifier");
       await holderSendProofToVerifier(result).then(async () => {
         console.log("# Verifier receive and process notification");
-        await verifierVerify();
+        await verifierVerify(verifierAuthFetch);
       });
     });
   });

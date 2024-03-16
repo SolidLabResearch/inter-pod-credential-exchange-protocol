@@ -106,4 +106,21 @@ const deriveDocument = async (signedDocument) => {
   return { document: derivedProof, verification: verified };
 };
 
-module.exports = { signDocument, deriveDocument };
+const verifyDocument = async (derivedProof) => {
+  console.log("Derived proof");
+  console.log(JSON.stringify(derivedProof, null, 2));
+
+  //Verify the derived proof
+  const verified = await verify(derivedProof, {
+    suite: new BbsBlsSignatureProof2020(),
+    purpose: new purposes.AssertionProofPurpose(),
+    documentLoader,
+  });
+
+  console.log("Verification result");
+  console.log(JSON.stringify(verified, null, 2));
+
+  return { document: derivedProof, verification: verified };
+};
+
+module.exports = { signDocument, deriveDocument, verifyDocument };

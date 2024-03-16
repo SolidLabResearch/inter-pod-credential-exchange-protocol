@@ -1,27 +1,53 @@
 # Readme
 
+This file shows how to setup, install and run our Inter-Pod Credential Exchange Protocol demo.
 
+An example output of running the code can be found in [example-output.md](./example-output.md).
 
 ## Setup
 
-`npm install` to install everything. 
+We use [Node](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) for running the code.
+
+`npm install` to install everything. (If there is a warning about Node engines, try running it with `npm install --ignore-engines`)
 
 ## Run the code
 
-1. `yarn run serve` to start the CSS
-2. `node index.js` to run the demo
+1. Open a terminal, run `npm run serve` to start the [Community Solid Server (CSS)](https://github.com/CommunitySolidServer/CommunitySolidServer)
+2. Open a second terminal, run `node index.js` to execute the demo
 
-TODO: just do it with npm run, remove yarn. Also test this again!
+The demo won't run if the CSS is not running.
+
+## Code structure
+
+- Readme.md :: this file
+- package.json :: npm package config
+- index.js
+- src/
+  - signer.js (Issuer)
+  - holder.js (Holder)
+  - verifier.js (Verifier)
+  - util/ :: util scripts
+- example-output.md ::
+
 
 ## Results
 
-Running the code will show the following 
+An example output of running the code can be found in [example-output.md](./example-output.md). It is divided into three phases, preceded by a setup procedure
 
-TODO: screenshot, clean console logs
+0. Setup of the three Solid Pods on the CSS
+1. Issuer issue VC to Holder
+2. Holder receive and consume credential, then derive a new VC and send it to Verifier
+3. Verifier receive, consume and verify VC
+
+As a last step, successful validation of the derived Vc should happen.
 
 
+## Inspection
 
-## Inspect the Pods
+Notifications can be inspected via HTTP GET in the command line, e.g. `http GET http://localhost:3000/verifier/inbox/b3ffb872-d4e8-40ae-bf8b-9bdde9f8a9c2`. This requires a HTTP client to be installed.
+
+
+## Advanced Inspection: Inspect the Pods
 
 **The below is not part of our demo, but might be of interest to follow along. Use on your own, we take no guarantee**
 
