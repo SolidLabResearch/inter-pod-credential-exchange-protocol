@@ -27,7 +27,7 @@ The demo won't run if the CSS is not running.
   - holder.js (Holder)
   - verifier.js (Verifier)
   - util/ :: util scripts
-- example-output.md ::
+- example-output.md :: An example output of running our code
 
 
 ## Results
