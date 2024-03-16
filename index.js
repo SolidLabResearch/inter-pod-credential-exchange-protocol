@@ -1,16 +1,29 @@
-const { checkCssIsAvailable } = require("./src/server")
-const { setupSigner, signerCreateAndSignCredential, signerSendCredentialToHolder } = require("./src/signer")
-const { setupHolder, holderDeriveProof, holderSendProofToVerifier, holderReceiveCredentials } = require("./src/holder")
-const { setupVerifier, verifierRequestProofFromHolder, verifierVerify } = require("./src/verifier")
+const { checkCssIsAvailable } = require("./src/server");
+const {
+  setupSigner,
+  signerCreateAndSignCredential,
+  signerSendCredentialToHolder,
+} = require("./src/signer");
+const {
+  setupHolder,
+  holderDeriveProof,
+  holderSendProofToVerifier,
+  holderReceiveCredentials,
+} = require("./src/holder");
+const {
+  setupVerifier,
+  verifierRequestProofFromHolder,
+  verifierVerify,
+} = require("./src/verifier");
 
 // Q: better start all pods at the same time or have them run separate?
 const demo = async () => {
   // 0. make sure CSS runs and is available
   // - reset everything? -> using in-memory config; always resets
   // -> this will exit the whole process if the server doesn't run
-  await checkCssIsAvailable()
+  await checkCssIsAvailable();
 
-  // 1. setup pods 
+  // 1. setup pods
   // - empty/reset them
   // - register/create user and password
   // - put (possible) default resources
@@ -18,27 +31,26 @@ const demo = async () => {
   // - have them run idle
   // the setup scripts are separate, as the pods have access to different informations
   // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
-  const signerAuthFetch = await setupSigner()
-  const holderAuthFetch = await setupHolder()
+  const signerAuthFetch = await setupSigner();
+  const holderAuthFetch = await setupHolder();
   // await setupVerifier()
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
-  const signedDocumentResult = await signerCreateAndSignCredential()
-  await signerSendCredentialToHolder(signerAuthFetch, signedDocumentResult)
+  const signedDocumentResult = await signerCreateAndSignCredential();
+  await signerSendCredentialToHolder(signerAuthFetch, signedDocumentResult);
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?
 
-  await holderReceiveCredentials(holderAuthFetch)
+  await holderReceiveCredentials(holderAuthFetch);
 
   // 2b. Holder -> Verifier
-  // TODO how does the verifier notify the holder about the format and required revealed information on the derivation?
-  verifierRequestProofFromHolder()
-  holderDeriveProof()
-  holderSendProofToVerifier()
-  verifierVerify()
-}
+  verifierRequestProofFromHolder();
+  holderDeriveProof();
+  holderSendProofToVerifier();
+  verifierVerify();
+};
 
-demo()
+demo();

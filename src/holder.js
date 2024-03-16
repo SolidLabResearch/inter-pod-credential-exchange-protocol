@@ -23,17 +23,17 @@ const derivationUrl = podUrl + "private/derivation";
 const setupHolder = async () => {
   // 1. login and get/create the auth fetch
   const { accessToken, dpopKey, authFetch } = await login(holder_credentials);
-  console.log("got credentials for %s", holder_credentials.podName);
+  console.log("Holder: got credentials for %s", holder_credentials.podName);
 
   // 2. create LDN inbox
   const inboxUrl = await setupInbox(authFetch, podUrl, webIdProfileUrl);
-  console.log("holder inbox is at %s", inboxUrl);
+  console.log("Holder: inbox is at %s", inboxUrl);
 
   return authFetch;
 };
 
 const holderReceiveCredentials = async (authFetch) => {
-  console.log("Discovering notifications");
+  console.log("Holder: Discovering notifications");
   // 1. discover all the notifications in the inbox
   const inboxUrl = await discoverInbox(holder_credentials.webId);
   const notificationUrls = await discoverNotifications(inboxUrl);
@@ -42,7 +42,7 @@ const holderReceiveCredentials = async (authFetch) => {
   // - delete/mark read?
   // - find the first notification from the Signer?
   // - how do we know we are looking for something from the Signer? -> There is another implicit interaction between Signer and Holder
-  console.log("readings notifications");
+  console.log("Holder: consuming notifications");
   // find the notification from the Signer
   const match = notificationUrls.find(async (url) => {
     const notificationUrl = inboxUrl + url;
@@ -53,7 +53,7 @@ const holderReceiveCredentials = async (authFetch) => {
     if (
       (notificationJson.from = "http://localhost:3000/signer/profile/card#me")
     ) {
-      console.log("Found a match! %s", notificationUrl);
+      console.log("Holder: Received message from Issuer! %s", notificationUrl);
 
       // 3. save the signed document at a secure place
       const result = await putResourceOnPod(
@@ -65,7 +65,7 @@ const holderReceiveCredentials = async (authFetch) => {
 
       // 3-post. verify the result
       const v = await authFetch(originalDocumentUrl);
-      console.log("read stored document %s", v.status);
+      console.log("Holder: consumed notification -- %s", v.status);
       console.log(v.headers);
       console.log(await v.text());
 
@@ -73,7 +73,7 @@ const holderReceiveCredentials = async (authFetch) => {
     }
     return false;
   });
-  console.log("FOUND! %s", match);
+  console.log("Holder: notification URI is %s", match);
 };
 
 const holderDeriveProof = () => {};

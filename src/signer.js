@@ -76,7 +76,6 @@ const signerSendCredentialToHolder = async (authFetch, signedDocument) => {
 
   // 1-post: send document
   // TODO: JSON-LD?
-  // TODO: properly generate UUID
   await sendMessage(inboxUrl, {
     id: Date.now().toString(36) + Math.random().toString(36).substring(2),
     from: signer_credentials.webId,
