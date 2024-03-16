@@ -4,8 +4,10 @@ const {
   setupInbox,
   discoverNotifications,
   discoverInbox,
+  sendMessage,
   getNotification,
 } = require("./util/notifications.js");
+const { deriveDocument } = require("./util/signatures.js");
 const { putResourceOnPod } = require("./util/util.js");
 
 // TODO: read these from the `seed-pods.json` file?
@@ -59,15 +61,19 @@ const holderReceiveCredentials = async (authFetch) => {
       const result = await putResourceOnPod(
         authFetch,
         originalDocumentUrl,
-        notificationJson.content,
+        notificationJson.body,
       );
-      console.log(result.status);
+      console.log("Holder: saved VC at a secure location", result.status);
 
       // 3-post. verify the result
-      const v = await authFetch(originalDocumentUrl);
-      console.log("Holder: consumed notification -- %s", v.status);
-      console.log(v.headers);
-      console.log(await v.text());
+      //const v = await authFetch(originalDocumentUrl);
+      // console.log("Holder: consuming it to derify a new VC -- %s", v.status);
+      // console.log(v.headers);
+      // console.log(await v.text());
+      console.log("Holder: consuming the received credential");
+      //console.log("Holder: notification type is %s", notificationJson.type);
+      //console.log(notificationJson.body);
+      holderDeriveProof(notificationJson.body);
 
       return true;
     }
@@ -76,8 +82,30 @@ const holderReceiveCredentials = async (authFetch) => {
   console.log("Holder: notification URI is %s", match);
 };
 
-const holderDeriveProof = () => {};
-const holderSendProofToVerifier = () => {};
+const holderDeriveProof = async (document) => {
+  console.log("Holder: deriving new VC");
+  console.log(document);
+  const result = await deriveDocument(document.signedDocument);
+  console.log("Holder: derivation success");
+  console.log("Holder: new document is %s", result.document);
+
+  console.log("Holder: sending to Verifier");
+  await holderSendProofToVerifier(result.document);
+};
+const holderSendProofToVerifier = async (document) => {
+  const verifierWebId = "http://localhost:3000/verifier/profile/card#me";
+  const inboxUrl = await discoverInbox(verifierWebId);
+
+  // 1-post: send document
+  await sendMessage(inboxUrl, {
+    id: Date.now().toString(36) + Math.random().toString(36).substring(2),
+    from: holder_credentials.webId,
+    to: verifierWebId,
+    type: "https://example.org/IPCEP/transfer",
+    created_time: new Date().toISOString(),
+    body: document,
+  }).then("# Holder send derived VC to Verifier");
+};
 
 module.exports = {
   setupHolder,

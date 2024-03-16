@@ -3,17 +3,21 @@ const {
   BbsBlsSignature2020,
   BbsBlsSignatureProof2020,
   deriveProof,
-} = require("@mattrglobal/jsonld-signatures-bbs")
-const { extendContextLoader, sign, verify, purposes } = require("jsonld-signatures")
+} = require("@mattrglobal/jsonld-signatures-bbs");
+const {
+  extendContextLoader,
+  sign,
+  verify,
+  purposes,
+} = require("jsonld-signatures");
 
-const keyPairOptions = require("../../data/keyPair.json")
-const exampleControllerDoc = require("../../data/controllerDocument.json")
-const bbsContext = require("../../data/bbs.json")
-const revealDocument = require("../../data/deriveProofFrame.json")
-const citizenVocab = require("../../data/citizenVocab.json")
-const credentialContext = require("../../data/credentialsContext.json")
-const suiteContext = require("../../data/suiteContext.json")
-
+const keyPairOptions = require("../../data/keyPair.json");
+const exampleControllerDoc = require("../../data/controllerDocument.json");
+const bbsContext = require("../../data/bbs.json");
+const revealDocument = require("../../data/deriveProofFrame.json");
+const citizenVocab = require("../../data/citizenVocab.json");
+const credentialContext = require("../../data/credentialsContext.json");
+const suiteContext = require("../../data/suiteContext.json");
 
 const documents = {
   "did:example:489398593#test": keyPairOptions,
@@ -36,10 +40,10 @@ const customDocLoader = (url) => {
   }
 
   console.log(
-    `Attempted to remote load context : '${url}', please cache instead`
+    `Attempted to remote load context : '${url}', please cache instead`,
   );
   throw new Error(
-    `Attempted to remote load context : '${url}', please cache instead`
+    `Attempted to remote load context : '${url}', please cache instead`,
   );
 };
 
@@ -73,11 +77,10 @@ const signDocument = async (inputDocument) => {
   console.log("Verification result");
   console.log(JSON.stringify(verificationResult, null, 2));
 
-  return { signedDocument, verificationResult }
+  return { signedDocument, verificationResult };
 };
 
 const deriveDocument = async (signedDocument) => {
-
   console.log("Signed document");
   console.log(JSON.stringify(signedDocument, null, 2));
 
@@ -86,7 +89,6 @@ const deriveDocument = async (signedDocument) => {
     suite: new BbsBlsSignatureProof2020(),
     documentLoader,
   });
-
 
   console.log("Derived proof");
   console.log(JSON.stringify(derivedProof, null, 2));
@@ -101,7 +103,7 @@ const deriveDocument = async (signedDocument) => {
   console.log("Verification result");
   console.log(JSON.stringify(verified, null, 2));
 
-  return { document: derivedProof, verification: verified }
-}
+  return { document: derivedProof, verification: verified };
+};
 
-module.exports = { signDocument, deriveDocument }
+module.exports = { signDocument, deriveDocument };

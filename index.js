@@ -33,24 +33,29 @@ const demo = async () => {
   // TODO most of the setup (podUrl, inbox) can be simplified -> create better setup function?
   const signerAuthFetch = await setupSigner();
   const holderAuthFetch = await setupHolder();
-  // await setupVerifier()
+  const verifierAuthFetch = await setupVerifier();
 
   // TODO: wait for signer, holder and verifier to be setup, then continue
 
   // 2a. Signer -> Holder
   const signedDocumentResult = await signerCreateAndSignCredential();
-  await signerSendCredentialToHolder(signerAuthFetch, signedDocumentResult);
+  await signerSendCredentialToHolder(
+    signerAuthFetch,
+    signedDocumentResult,
+  ).then(console.log("# Signer sent VC to Holder"));
 
   // TODO: only continue after the Holder holds the credential
   //  -> simulate the interaction between Holder and Verifier?
 
-  await holderReceiveCredentials(holderAuthFetch);
+  await holderReceiveCredentials(holderAuthFetch).then(() => {
+    console.log("success");
+  });
 
   // 2b. Holder -> Verifier
-  verifierRequestProofFromHolder();
-  holderDeriveProof();
-  holderSendProofToVerifier();
-  verifierVerify();
+  //verifierRequestProofFromHolder();
+  //holderDeriveProof();
+  //holderSendProofToVerifier();
+  //verifierVerify();
 };
 
 demo();

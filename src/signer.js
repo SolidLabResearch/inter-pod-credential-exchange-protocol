@@ -80,6 +80,7 @@ const signerSendCredentialToHolder = async (authFetch, signedDocument) => {
     id: Date.now().toString(36) + Math.random().toString(36).substring(2),
     from: signer_credentials.webId,
     to: holderWebId,
+    type: "https://example.org/IPCEP/transfer",
     created_time: new Date().toISOString(),
     body: signedDocument,
   });
