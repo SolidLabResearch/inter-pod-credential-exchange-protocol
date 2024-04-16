@@ -29,18 +29,17 @@ The demo won't run if the CSS is not running.
   - util/ :: util scripts
 - example-output.md :: An example output of running our code
 
-
 ## Results
 
-An example output of running the code can be found in [example-output.md](./example-output.md). It is divided into three phases, preceded by a setup procedure
+![figure-flow](https://github.com/j-steinbach/inter-pod-credential-exchange-protocol-demo/assets/69524139/17ce2a7d-1ae6-474e-93b8-11576c2b19d0)
 
-0. Setup of the three Solid Pods on the CSS
-1. Issuer issue VC to Holder
-2. Holder receive and consume credential, then derive a new VC and send it to Verifier
-3. Verifier receive, consume and verify VC
+We demonstrate three phases, preceded by a setup procedure (setting up three Solid Pods on the CSS, including an LDN inbox)
 
-As a last step, successful validation of the derived Vc should happen.
+1. Issuer issue Verifiable Credential (VC) to Holder (A, B)
+2. Holder receive and consume credential, then derive a new VC and send it to Verifier (C, D)
+3. Verifier receive, consume and verify VC (E)
 
+**==> An example output of running the code can be found in [example-output.md](./example-output.md).**
 
 ## Inspection
 
