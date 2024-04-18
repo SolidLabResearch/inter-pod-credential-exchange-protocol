@@ -1,5 +1,7 @@
 # Readme
 
+[![DOI](https://zenodo.org/badge/772253867.svg)](https://zenodo.org/doi/10.5281/zenodo.10992059)
+
 This file shows how to setup, install and run our Inter-Pod Credential Exchange Protocol demo.
 
 An example output of running the code can be found in [example-output.md](./example-output.md).
